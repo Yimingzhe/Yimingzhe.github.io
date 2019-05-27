@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/medium.ico?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/small.ico?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="介绍时间复杂度，空间复杂度，简单排序算法（选择排序，冒泡排序，插入排序）以及对它们的复杂度分析。">
+<meta name="keywords" content="algorithm,Java,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法学习笔记（一）复杂度和简单排序算法">
+<meta property="og:url" content="https://Yimingzhe.github.io/2019/05/28/article/index.html">
+<meta property="og:site_name" content="This is my blog">
+<meta property="og:description" content="介绍时间复杂度，空间复杂度，简单排序算法（选择排序，冒泡排序，插入排序）以及对它们的复杂度分析。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-27T21:11:46.804Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法学习笔记（一）复杂度和简单排序算法">
+<meta name="twitter:description" content="介绍时间复杂度，空间复杂度，简单排序算法（选择排序，冒泡排序，插入排序）以及对它们的复杂度分析。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://Yimingzhe.github.io/2019/05/28/article/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>算法学习笔记（一）复杂度和简单排序算法 | This is my blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">This is my blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">subtitle</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2019/05/28/article/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="异名者">
+      <meta itemprop="description" content="description">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This is my blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">算法学习笔记（一）复杂度和简单排序算法
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-28 05:00:27 / 修改时间：05:11:46" itemprop="dateCreated datePublished" datetime="2019-05-28T05:00:27+08:00">2019-05-28</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">5.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">5 分钟</span>
+              
+            </div>
+          
+
+          
+            <div class="post-description">介绍时间复杂度，空间复杂度，简单排序算法（选择排序，冒泡排序，插入排序）以及对它们的复杂度分析。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>算法学习笔记是根据牛客网左神课程讲到的知识点，按自己目前的理解归纳整理的，如果文章中出现错误，欢迎指出并交流。虽然思路和方法相同，但为了巩固知识点加深印象，涉及的代码将用Java和JavaScript各自实现一遍。</p>
+<h3 id="一-时间复杂度与额外空间复杂度"><a href="#一-时间复杂度与额外空间复杂度" class="headerlink" title="一. 时间复杂度与额外空间复杂度"></a>一. 时间复杂度与额外空间复杂度</h3><p>（1）<strong>常数操作</strong>： 和样本数量无关，每次都花费固定时间的操作。</p>
+<p>（2）<strong>时间复杂度</strong>：算法流程中的重要指标，度量常数操作的数量，用O（读作big O）来表示。首先要对算法流程足够熟悉，看流程中进行了多少次的常数操作，再总结出相应的常数操作数量的表达式。针对这个表达式，只看高阶项，并且忽略高阶项的常数项，假设此时得到的式子为f(n)， 那么时间复杂度就是O(f(n))。</p>
+<p>​    对于上述描述，我的理解是时间复杂度是一个度量算法执行时间的指标，而衡量算法的执行时间可以通过常数操作的次数来进行，执行次数和样本规模n有关，因此可以总结出常数操作数量表达式。而随着n也就是问题规模的扩大，只有最高阶项会对结果影响巨大，高阶项的系数的影响也几乎可以忽略，这就得到了O(f(n))了。同一问题的算法比较优劣时可以将函数f(n)作为重要标准。如果这个指标相同，可以再通过实验比对效率。这时的差异就在于之前忽略掉的常数项，它往往是通过实验比较的，除非特别熟悉可以直接理论分析比较。</p>
+<p>（3）<strong>额外空间复杂度</strong>：空间复杂度用来衡量算法运行过程中需要临时占用的储存空间大小。去掉和问题要求相关的数据结构，看是否还需要额外的数据结构并存储数据。如果只是需要有限的几个变量，那么额外空间复杂度就是O(1)。如何理解去除和问题要求相关的数据结构呢？比如给定一个数组，题目要求返回一个拷贝的新数组，因为运行过程中用到的新数组正是要返回的内容，所以空间复杂度依然是O(1)。</p>
+<h3 id="二-选择排序-Selection-sort-与复杂度分析"><a href="#二-选择排序-Selection-sort-与复杂度分析" class="headerlink" title="二. 选择排序(Selection sort)与复杂度分析"></a>二. 选择排序(Selection sort)与复杂度分析</h3><p>（1）<strong>基本原理</strong>：从待排序的数据中选出最大值（最小值），排列在序列的最前面；对后面的序列进行相同的步骤，直到所有的数据排列完毕。</p>
+<p>（2） <strong>详解</strong>： 假设有n个元素，a[0]到a[n-1]，第一次是选出a[0]到a[n-1]中的最大值（最小值），将它排列在a[0]的位置；第二次比较出a[1]到a[n-1]中的最大值（最小值），将它排列在a[1]的位置；以此类推，直到排序结束。因为每次都是从待排序元素中选出最大值（最小值）排在前面，所以叫做选择排序。</p>
+<p>如果排序过程中遇到两个相同的元素，排序前后能保证着两个相同元素位置不变的排序方式是稳定的，反之就是不稳定的。选择排序是<strong>不稳定</strong>的排序方法。</p>
+<p>（假设C为均摊到每个位置的数的常数操作次数）</p>
+<p>​    a[0]     ……    a[n-1]            N个数            C*N</p>
+<p>​    a[1]     ……    a[n-1]            N-1               C*(N-1)</p>
+<p>​    a[2]     ……    a[n-1]            N-2               C*(N-2)</p>
+<p>​                ……                         ……              ……</p>
+<p>​                  a[n-1]                  1                     C*1</p>
+<p>将常数操作次数相加：C<em>N + C</em>(N-1) + C(N-2) + … + C = C(aN^2 + bN + k)，其中C, a, b, k均为常数（aN^2 + bN + k为等差数列求和公式）。其中高阶项为a<em>c</em>N^2，忽略常数项ac，得到时间复杂度O(n^2)。空间复杂度O(1)。</p>
+<p><strong>Java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selectionSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 如果数组为null或者数组内元素长度小于等于1</span></span><br><span class="line">        <span class="keyword">if</span>(arr==<span class="keyword">null</span> || arr.length&lt;=<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;arr.length; i++) &#123;</span><br><span class="line">            <span class="comment">// minIndex存放待排序的序列中最小值的下标</span></span><br><span class="line">            <span class="keyword">int</span> minIndex = i;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>; j&lt;arr.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(arr[j] &lt; arr[minIndex]) &#123;</span><br><span class="line">                    minIndex = j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 将选出的最小值与此序列中最前面的数交换位置</span></span><br><span class="line">            <span class="keyword">int</span> tem = arr[i];</span><br><span class="line">            arr[i] = arr[minIndex];</span><br><span class="line">            arr[minIndex] = tem;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectionSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(arr==<span class="literal">null</span> || arr.length&lt;=<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;arr.length; i++)&#123;</span><br><span class="line">        <span class="keyword">var</span> minIndex = i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=i+<span class="number">1</span>; j&lt;arr.length; j++)&#123;</span><br><span class="line">          <span class="keyword">if</span>(arr[j] &lt; arr[minIndex])&#123;</span><br><span class="line">            minIndex = j;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> tem = arr[i];</span><br><span class="line">        arr[i] = arr[minIndex];</span><br><span class="line">        arr[minIndex] = tem;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三-冒泡排序-Bubble-sort-与复杂度分析"><a href="#三-冒泡排序-Bubble-sort-与复杂度分析" class="headerlink" title="三. 冒泡排序(Bubble sort)与复杂度分析"></a>三. 冒泡排序(Bubble sort)与复杂度分析</h3><p>（1）<strong>基本原理</strong>：每次比较相邻的两个元素，如果顺序与题目要求排列顺序（比如从大到小，从小到大，首字母A-Z…）不相符就交换位置，那么最后一个位置上就是走访过的数据的极值（最小值，最大值，首字母为Z…）。重复走访未排序过的数列，直到排列完毕。</p>
+<p>（2）<strong>详解</strong>：假设要求从小到大对一组数据进行排列。首先比较相邻的元素，如果第二个数比第一个数小就交换位置；对每组相邻的数据都进行上述操作，直到比较完最后一对，此时最后一个位置上的就是这组数据中的最大值；将除了最后一个数的序列重复上述步骤；每次都排除最后一个已经排好序的元素，重复进行操作，直到所有元素都排好位置。因为每一次都会将现有数据的最大值“浮”到顶端，因此称为冒泡排序。冒泡排序是<strong>稳定</strong>的排序方法。</p>
+<p>​    假设有n个数，a[0]到a[n-1]，第一次走访比较a[0]到a[n-1]，结束后最大值位于a[n-1]；第二次走访比较a[0]到a[n-2]，结束后最大值位于a[n-2]……以此类推，直到排序完毕。同样假设假设均摊到每个位置的数的常数操作次数为C，与上述选择排序相同，提取C后的式子可以利用等差数列求和公式。同样得到时间复杂度为O(n^2)。空间复杂度O(1)。</p>
+<p><strong>Java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(arr==<span class="keyword">null</span> || arr.length&lt;=<span class="number">1</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> e=arr.length-<span class="number">1</span>; e&gt;<span class="number">0</span>; e--) &#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;e; i++) &#123;</span><br><span class="line">               <span class="keyword">if</span>(arr[i]&gt;arr[i+<span class="number">1</span>]) &#123;</span><br><span class="line">                   <span class="keyword">int</span> tem = arr[i];</span><br><span class="line">                   arr[i] = arr[i+<span class="number">1</span>];</span><br><span class="line">                   arr[i+<span class="number">1</span>] = tem;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(arr==<span class="literal">null</span> || arr.length&lt;=<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">var</span> e=arr.length<span class="number">-1</span>; e&gt;<span class="number">0</span>; e--)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;e; i++)&#123;</span><br><span class="line">          <span class="keyword">if</span>(arr[i]&gt;arr[i+<span class="number">1</span>])&#123;</span><br><span class="line">            <span class="keyword">var</span> tem = arr[i];</span><br><span class="line">            arr[i] = arr[i+<span class="number">1</span>];</span><br><span class="line">            arr[i+<span class="number">1</span>] = tem;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四-插入排序-Insertion-sort-与复杂度分析"><a href="#四-插入排序-Insertion-sort-与复杂度分析" class="headerlink" title="四. 插入排序(Insertion sort)与复杂度分析"></a>四. 插入排序(Insertion sort)与复杂度分析</h3><p>(1) <strong>基本原理</strong>：将未被排序的元素与前面的有序序列元素从后向前比较，并插入到正确的位置。</p>
+<p>(2) <strong>详解</strong>：假设将一个数组中的数从小到大排列。第一次进行时，将第一个元素视为已排序元素，第二个元素一直到末尾元素都是未排序元素，比较第二个元素与第一个元素的大小，如果第二个比第一个大，就不改变位置，反之插入到第一个元素的前面；第二次，将前两个元素视为已排序元素，第三个到末尾的是未排序序列，如果比前一个大，就不改变位置，反之插入到前一个元素的前面，再与第一个元素比较，看是否需要插入到第一个元素之前；以此类推，每个将要进行排序的未排序元素都与前面的元素比较，插入到合适的位置，如果两个数相同就排在相等元素的后面。由于每次要把将排序的元素插入到前面合适的位置，就把这种方法称为插入排序，像插入一张扑克牌一样。这种排序也是<strong>稳定</strong>的方式。</p>
+<p>这种排序方式的时间复杂度与实际的数据状况有关，如果一开始就是有序的一组数，那么每次只需要和前面的一个元素进行比较，那么就是O(N)；如果一开始是逆序的一组数，每次都要将待排序元素与已排序的所有元素比较，插入到最前面，此时就是O(N^2)；根据规定，需要<strong>按照最差情况计算时间复杂度</strong>，因此插入排序的时间复杂度也是O(N^2)，空间复杂度O(1)。在O(N^2)的排序算法中，插入排序是最好的，因为不一定每次都是逆序的最差情况。</p>
+<p><strong>Java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">insertionSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(arr==<span class="keyword">null</span> || arr.length&lt;=<span class="number">1</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;arr.length; i++) &#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> j=i-<span class="number">1</span>; j&gt;=<span class="number">0</span> &amp;&amp; arr[j]&gt;arr[j+<span class="number">1</span>]; j--) &#123;</span><br><span class="line">               <span class="keyword">int</span> tem = arr[j+<span class="number">1</span>];</span><br><span class="line">               arr[j+<span class="number">1</span>] = arr[j];</span><br><span class="line">               arr[j] = tem;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertionSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(arr==<span class="literal">null</span> || arr.length&lt;=<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;arr.length; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=i<span class="number">-1</span>; j&gt;=<span class="number">0</span> &amp;&amp; arr[j]&gt;arr[j+<span class="number">1</span>]; j--)&#123;</span><br><span class="line">          <span class="keyword">var</span> tem = arr[j];</span><br><span class="line">          arr[j] = arr[j+<span class="number">1</span>];</span><br><span class="line">          arr[j+<span class="number">1</span>] = tem;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/22/test-1/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="异名者">
+            
+              <p class="site-author-name" itemprop="name">异名者</p>
+              <div class="site-description motion-element" itemprop="description">description</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/yimingzhe" title="GitHub &rarr; https://github.com/yimingzhe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-时间复杂度与额外空间复杂度"><span class="nav-number">1.</span> <span class="nav-text">一. 时间复杂度与额外空间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-选择排序-Selection-sort-与复杂度分析"><span class="nav-number">2.</span> <span class="nav-text">二. 选择排序(Selection sort)与复杂度分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-冒泡排序-Bubble-sort-与复杂度分析"><span class="nav-number">3.</span> <span class="nav-text">三. 冒泡排序(Bubble sort)与复杂度分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-插入排序-Insertion-sort-与复杂度分析"><span class="nav-number">4.</span> <span class="nav-text">四. 插入排序(Insertion sort)与复杂度分析</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">异名者</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">6k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">5 分钟</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
