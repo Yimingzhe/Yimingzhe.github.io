@@ -96,17 +96,18 @@
 
 
 
-  <meta name="description" content="My first blog">
+  <meta name="description" content="master公式的适用场景和简介">
+<meta name="keywords" content="algorithm,Java,JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://Yimingzhe.github.io/2019/04/22/test-1/index.html">
+<meta property="og:title" content="算法学习笔记（四）递归中时间复杂度的估算">
+<meta property="og:url" content="https://Yimingzhe.github.io/2019/05/31/algorithm1-4/index.html">
 <meta property="og:site_name" content="This is my blog">
-<meta property="og:description" content="My first blog">
+<meta property="og:description" content="master公式的适用场景和简介">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-27T22:13:34.138Z">
+<meta property="og:updated_time" content="2019-05-31T13:32:39.771Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="My first blog">
+<meta name="twitter:title" content="算法学习笔记（四）递归中时间复杂度的估算">
+<meta name="twitter:description" content="master公式的适用场景和简介">
 
 
 
@@ -114,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="https://Yimingzhe.github.io/2019/04/22/test-1/">
+  <link rel="canonical" href="https://Yimingzhe.github.io/2019/05/31/algorithm1-4/">
 
 
 
@@ -124,7 +125,7 @@
   };
 </script>
 
-  <title>Hello World | This is my blog</title>
+  <title>算法学习笔记（四）递归中时间复杂度的估算 | This is my blog</title>
   
 
 
@@ -327,7 +328,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2019/04/22/test-1/">
+    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2019/05/31/algorithm1-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="异名者">
@@ -344,7 +345,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World
+          <h1 class="post-title" itemprop="name headline">算法学习笔记（四）递归中时间复杂度的估算
 
               
             
@@ -370,24 +371,12 @@
                 
               
 
-              <time title="创建时间：2019-04-22 21:18:49" itemprop="dateCreated datePublished" datetime="2019-04-22T21:18:49+08:00">2019-04-22</time>
+              <time title="创建时间：2019-05-31 21:28:35 / 修改时间：21:32:39" itemprop="dateCreated datePublished" datetime="2019-05-31T21:28:35+08:00">2019-05-31</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-28 06:13:34" itemprop="dateModified" datetime="2019-05-28T06:13:34+08:00">2019-05-28</time>
               
             
           </span>
@@ -404,7 +393,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a></span>
 
                 
                 
@@ -440,7 +429,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">291</span>
+                <span title="本文字数">2.2k</span>
               
 
               
@@ -454,13 +443,13 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">2 分钟</span>
               
             </div>
           
 
           
-            <div class="post-description">My first blog</div>
+            <div class="post-description">master公式的适用场景和简介</div>
           
 
         </div>
@@ -476,9 +465,19 @@
       
 
       
-        <p>终于交完了第二学期的最后一篇报告，算是标志着这个学期正式结束了吧。大概因为最近一直写报告，写小论文，现在都不知道要怎么轻松地给博客开个头=_=||。</p>
-<p>总之，即将迎来第三学期，主要任务是完成毕业论文，除了和导师见面，参加一些和论文相关的workshops之外，大多数的学习时间都可以自己支配了。所以也准备在博客里记录一下自己的学习笔记。Web课的讲师在最后一次的lecture上骄傲地告诉我们他12岁的女儿有2个博客和3个网站，最近问他如何做搜索引擎优化让更多人看到她的博客。。。对比和伤害真是无处不在，哈哈，还有太多东西要学，先写下第一篇文章，为新博客的开启稍微增加一点仪式感吧！</p>
-
+        <p>如果递归行为符合<strong>T(N) = aT(N/b) + O(N^d)</strong>，就可以直接利用master公式来得到时间复杂度。a代表子过程调用的次数，N/b是子问题规模，除了子过程之外的部分的时间复杂度需要满足O(N^d)。其中要注意的是，想要使用master公式，<strong>子过程的规模要相同</strong>，都是N/b。</p>
+<p>Master公式：</p>
+<p>（1）log<sub>b</sub>a &gt; d  —&gt;  O(N^(log<sub>b</sub>a))</p>
+<p>（2）log<sub>b</sub>a &lt; d  —&gt;  O(N^d)</p>
+<p>（3）log<sub>b</sub>a = d  —&gt;  O(N^d * logN)</p>
+<p>“获得一个数组中的最大值”可以直接通过遍历来完成，但为了解释上述知识点，用递归的方式来实现：先找到中点位置，分别求出并比较左右两边数的最大值，递归停止的条件是左右下标相同，也就是同一个位置。具体代码如下：</p>
+<p><strong>Java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMax</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> process(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// the base case</span></span><br><span class="line">        <span class="keyword">if</span>(left == right) &#123;</span><br><span class="line">            <span class="keyword">return</span> arr[left];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> leftMax = process(arr, left, mid);</span><br><span class="line">        <span class="keyword">int</span> rightMax = process(arr, mid+<span class="number">1</span>, right);</span><br><span class="line">        <span class="keyword">return</span> Math.max(leftMax, rightMax);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function getMax(arr)&#123;</span><br><span class="line">      return process(arr,0,arr.length-1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function process(arr, left, right)&#123;</span><br><span class="line">      if(left == right) &#123;</span><br><span class="line">          return arr[left];</span><br><span class="line">      &#125;</span><br><span class="line">      var mid = left + ((right - left) &gt;&gt; 1);</span><br><span class="line">      var leftMax = process(arr, left, mid);</span><br><span class="line">      var rightMax = process(arr, mid+1, right);</span><br><span class="line">      return Math.max(leftMax, rightMax);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>根据上面的代码，可以看出子过程的规模是N/2,调用子过程的次数是2次，除了子过程之外的部分时间复杂度是O(1)。整体的表达式可以写作：T(N) = 2T(N/2) + O(1)，符合master公式的要求，因此可以直接代入使用。a=2, b=2, d=0，那么log<sub>2</sub>2 = 1 &gt; 0，时间复杂度为O(N^log<sub>2</sub>2) = O(N)。这和直接遍历找出最大值的时间复杂度相同。</p>
+<p>如果在代码中加入一个(和功能无关的）for循环，那么除了子过程之外的部分时间复杂度为O(N)，T(N) = 2T(N/2) + O(N)。示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMax</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> process(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(left == right) &#123;</span><br><span class="line">            <span class="keyword">return</span> arr[left];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 假如在代码中加入下面的语句, T(N) = 2T(N/2) + O(N)</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=left; i&lt;=right; i++) &#123;</span><br><span class="line">            System.out.println(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> leftMax = process(arr, left, mid);</span><br><span class="line">        <span class="keyword">int</span> rightMax = process(arr, mid+<span class="number">1</span>, right);</span><br><span class="line">        <span class="keyword">return</span> Math.max(leftMax, rightMax);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -499,6 +498,16 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
 
       
       
@@ -508,15 +517,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/05/30/algorithm1-3/" rel="next" title="算法学习笔记（三）二分法查找(Binary Search)的应用">
+                <i class="fa fa-chevron-left"></i> 算法学习笔记（三）二分法查找(Binary Search)的应用
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/28/algorithm1-1/" rel="prev" title="算法学习笔记（一）复杂度和简单排序算法">
-                算法学习笔记（一）复杂度和简单排序算法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
