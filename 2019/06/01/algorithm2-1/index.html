@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/medium.ico?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/small.ico?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="介绍归并排序，以及相关扩展题目（小和问题，逆序对问题）。">
+<meta name="keywords" content="algorithm,Java,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法学习笔记（五）归并排序及相关扩展">
+<meta property="og:url" content="https://Yimingzhe.github.io/2019/06/01/algorithm2-1/index.html">
+<meta property="og:site_name" content="This is my blog">
+<meta property="og:description" content="介绍归并排序，以及相关扩展题目（小和问题，逆序对问题）。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-01T15:40:36.346Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法学习笔记（五）归并排序及相关扩展">
+<meta name="twitter:description" content="介绍归并排序，以及相关扩展题目（小和问题，逆序对问题）。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://Yimingzhe.github.io/2019/06/01/algorithm2-1/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>算法学习笔记（五）归并排序及相关扩展 | This is my blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">This is my blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">subtitle</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2019/06/01/algorithm2-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="异名者">
+      <meta itemprop="description" content="description">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This is my blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">算法学习笔记（五）归并排序及相关扩展
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-01 23:34:09 / 修改时间：23:40:36" itemprop="dateCreated datePublished" datetime="2019-06-01T23:34:09+08:00">2019-06-01</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">9.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">9 分钟</span>
+              
+            </div>
+          
+
+          
+            <div class="post-description">介绍归并排序，以及相关扩展题目（小和问题，逆序对问题）。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-归并排序"><a href="#一-归并排序" class="headerlink" title="一. 归并排序"></a>一. 归并排序</h3><p>归并排序是一种稳定的排序，利用了递归思想，概括来说主要思路是：保证左半边有序；保证右半边有序；让整体有序。具体步骤为：</p>
+<ol>
+<li>将整个序列分为左右两个长度相同的子序列；</li>
+<li>两个子序列分别排序；</li>
+<li>合并两个子序列：创建一个与原序列等长的辅助数组；设置两个位置标记，分别指向两个子序列的起始位置；比较两个位置的元素，将较小值拷贝至辅助数组，并将标记移到下一个位置；重复上一步，直到一个序列中的位置标记即将越界，就将另一个序列中的剩余元素直接拷贝到辅助数组；将辅助数组的值拷回原数组。这个合并的过程可以看作小规模的外排序。</li>
+<li>递归执行上述步骤</li>
+</ol>
+<p>此过程中T(N) = 2T(N/2) + O(N)，符合master公式的使用条件：T(N) = aT(N/b) + O(N^d)。此时log<sub>b</sub>a = log<sub>2</sub>2 = 1= d,因此时间复杂度为O(N*logN)。额外空间复杂度为O(N)。</p>
+<p><strong>Java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(arr==<span class="keyword">null</span> || arr.length&lt;<span class="number">2</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       mergeSort(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>);</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(right == left) &#123;</span><br><span class="line">           <span class="keyword">return</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">int</span> mid = left + ((right-left)&gt;&gt;<span class="number">1</span>);</span><br><span class="line">       mergeSort(arr, left, mid);</span><br><span class="line">       mergeSort(arr, mid+<span class="number">1</span>, right);</span><br><span class="line">       merge(arr, left, mid, right);</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> mid, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span>[] arr2 = <span class="keyword">new</span> <span class="keyword">int</span>[right - left + <span class="number">1</span>];</span><br><span class="line">       <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> p1 = left;</span><br><span class="line">       <span class="keyword">int</span> p2 = mid + <span class="number">1</span>;</span><br><span class="line">       <span class="keyword">while</span>(p1&lt;=mid &amp;&amp; p2&lt;=right) &#123;</span><br><span class="line">           arr2[i++] = arr[p1]&lt;arr[p2] ? arr[p1++] : arr[p2++];</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">while</span>(p1 &lt;= mid) &#123;</span><br><span class="line">           <span class="comment">// p2右越界且p1未越过中间位置</span></span><br><span class="line">           arr2[i++] = arr[p1++];</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">while</span>(p2 &lt;= right) &#123;</span><br><span class="line">           <span class="comment">// p1到达中间位置，p2未到右边界</span></span><br><span class="line">           arr2[i++] = arr[p2++];</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;arr2.length; i++) &#123;</span><br><span class="line">           arr[left+i] = arr2[i];</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span>[] arr = &#123;<span class="number">1</span>,<span class="number">11</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">9</span>,<span class="number">9</span>&#125;;</span><br><span class="line">       mergeSort(arr);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">var a =[1,11,3,5,7,2,6,9,9];</span><br><span class="line">mergeSort(a);</span><br><span class="line"></span><br><span class="line">function mergeSort(arr)&#123;</span><br><span class="line">  if(arr===null || arr.length&lt;2)&#123;</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line">  mergeSort(arr, 0, arr.length-1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function mergeSort(arr, left, right)&#123;</span><br><span class="line">  if(left === right)&#123;</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line">  var mid = left + ((right - left) &gt;&gt; 1);</span><br><span class="line">  mergeSort(arr, left, mid);</span><br><span class="line">  mergeSort(arr, mid+1, right);</span><br><span class="line">  merge(arr, left, right);</span><br><span class="line">&#125;</span><br><span class="line">function merge(arr, left, right)&#123;</span><br><span class="line">  var arr2 = [];</span><br><span class="line">  var mid = left + ((right - left) &gt;&gt; 1);</span><br><span class="line">  var i = 0;</span><br><span class="line">  var p1 = left;</span><br><span class="line">  var p2 = mid + 1;</span><br><span class="line">  while(p1&lt;=mid &amp;&amp; p2&lt;=right)&#123;</span><br><span class="line">    arr2[i++] = arr[p1] &lt; arr[p2] ? arr[p1++] : arr[p2++];</span><br><span class="line">  &#125;</span><br><span class="line">  while(p1&lt;=mid)&#123;</span><br><span class="line">    arr2[i++] = arr[p1++];</span><br><span class="line">  &#125;</span><br><span class="line">  while(p2&lt;=right)&#123;</span><br><span class="line">    arr2[i++] = arr[p2++];</span><br><span class="line">  &#125;</span><br><span class="line">  for(i=0; i&lt;arr.length; i++)&#123;</span><br><span class="line">    arr[left + i] = arr2[i];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二-归并排序的扩展"><a href="#二-归并排序的扩展" class="headerlink" title="二. 归并排序的扩展"></a>二. 归并排序的扩展</h3><p>先补充一些复杂度的优劣排序，常见的复杂度按照从优到劣的顺序排列，依次为:</p>
+<p>最优 ——&gt;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">O(1)</th>
+<th>O(logN)</th>
+<th>O(logN^2)</th>
+<th>O(N)</th>
+<th>O(N*logN)</th>
+<th>O(N^2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>O(N^3)</strong></td>
+<td><strong>O(N^k)</strong>  （k为常数）</td>
+<td><strong>O(2^n)</strong>  （n步决定，每步都有2个决策）</td>
+<td><strong>O(3^n)</strong> （三叉树）</td>
+<td><strong>O(k^n)</strong>  （k为常数 k叉树）</td>
+<td><strong>O(n!)</strong> （排列组合）</td>
+</tr>
+</tbody>
+</table>
+<p>​                                                                                                                                                 ——&gt;  最劣</p>
+<h4 id="（1）小和问题"><a href="#（1）小和问题" class="headerlink" title="（1）小和问题"></a>（1）小和问题</h4><p>在一个数组中，每个数左边比它小的数相加，最后的结果称作这个数组的小和。在处理这个问题的过程中，可以先将原始的标准转化为更容易处理的等效标准。每个数被加了几次，就看它右边有多少个比它大的数。可以用归并排序的方法求小和，与归并排序的方式只有一点不同，那就是遇到相等值的情况，归并问题遇相等拷贝左部分或右部分的值都可以，而小和问题遇到相等时只能拷贝右侧的。因为要保证左侧的每个值被拷贝进来时都已经找到了比它大的。</p>
+<p>假设数组 {1，3，4，2，5}</p>
+<p>​        1&times;4+3&times;2+4&times;1+2&times;1  = 16，这个数组的小和为16，和原始标准计算出的小和结果相同。</p>
+<p>此问题也可以直接用遍历方式求解，但是时间复杂度为O(N^2)。如果采用上述方式，时间复杂度为O(N&times;logN).</p>
+<p>具体的实现思路为：</p>
+<ol>
+<li>将数组划分为左右两部分；</li>
+<li>求左半部分的小和；</li>
+<li>求右半部分的小和；</li>
+<li>合并左右两部分，求左部分在右部分中的小和；</li>
+<li>将上三步的和相加，得到整个数组的小和；</li>
+<li>递归地执行上述步骤</li>
+</ol>
+<p><strong>每个数都不会错过右侧的所有范围，不会找漏；求小和只存在于跨组行为的时候，所以也不会找重。</strong></p>
+<p><strong>Java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">smallSum</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span>(arr==<span class="keyword">null</span> || arr.length&lt;<span class="number">2</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">     &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> mergeSort(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">     <span class="keyword">if</span>(left == right) &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> mergeSort(arr, left, mid) + mergeSort(arr, mid+<span class="number">1</span>, right) </span><br><span class="line">     + merge(arr, left, right);</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">     <span class="comment">// 创建辅助数组</span></span><br><span class="line">     <span class="keyword">int</span>[] arr2 = <span class="keyword">new</span> <span class="keyword">int</span>[right - left + <span class="number">1</span>];</span><br><span class="line">     <span class="comment">// 辅助数组当前位置</span></span><br><span class="line">     <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">     <span class="comment">// 左半边数组的起始位置</span></span><br><span class="line">     <span class="keyword">int</span> p1 = left;</span><br><span class="line">     <span class="comment">// 数组的中间位置</span></span><br><span class="line">     <span class="keyword">int</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">     <span class="comment">// 右半边数组的起始位置</span></span><br><span class="line">     <span class="keyword">int</span> p2 = mid + <span class="number">1</span>;</span><br><span class="line">     <span class="comment">// 保存小和结果</span></span><br><span class="line">     <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">     <span class="comment">// 当左右都不越界时</span></span><br><span class="line">     <span class="keyword">while</span>(p1&lt;=mid &amp;&amp; p2&lt;=right) &#123;</span><br><span class="line">         <span class="comment">// 当左侧部分比右侧部分小时，产生小和</span></span><br><span class="line">         res += arr[p1] &lt; arr[p2] ? arr[p1]*(right - p2 + <span class="number">1</span>) : <span class="number">0</span>;</span><br><span class="line">         <span class="comment">// 把最小值放到辅助数组的下一个位置上</span></span><br><span class="line">         arr2[i++] = arr[p1] &lt; arr[p2] ? arr[p1++] : arr[p2++];</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">// 当右半部分越界时</span></span><br><span class="line">     <span class="keyword">while</span>(p1 &lt;= mid) &#123;</span><br><span class="line">         <span class="comment">// 拷贝左半边的剩余数</span></span><br><span class="line">         arr2[i++] = arr[p1++];</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">// 当左半部分越界时</span></span><br><span class="line">     <span class="keyword">while</span>(p2 &lt;= right) &#123;</span><br><span class="line">         <span class="comment">// 拷贝右半边的剩余数</span></span><br><span class="line">         arr2[i++] = arr[p2++];</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">// 用辅助数组代替原数组</span></span><br><span class="line">     <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;arr2.length; i++) &#123;</span><br><span class="line">         arr[left+i] = arr2[i];</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">// 返回当前的小和</span></span><br><span class="line">     <span class="keyword">return</span> res;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span>[] arr = &#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>&#125;;</span><br><span class="line">     System.out.println(smallSum(arr)); <span class="comment">//16</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a =[<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>];</span><br><span class="line"><span class="built_in">console</span>.log(smallSum(a)); <span class="comment">//16</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">smallSum</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(arr===<span class="literal">null</span> || arr.length&lt;<span class="number">2</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> mergeSort(arr, <span class="number">0</span>, arr.length<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span>(<span class="params">arr, left, right</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(left === right)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> mid = left + ((right-left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> mergeSort(arr, left, mid) + mergeSort(arr, mid+<span class="number">1</span>, right) + merge(arr, left, right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">arr, left, right</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> mid = left + ((right-left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">var</span> res = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">var</span> arr2 =[];</span><br><span class="line">  <span class="keyword">var</span> p1 = left;</span><br><span class="line">  <span class="keyword">var</span> p2 = mid + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(p1&lt;=mid &amp;&amp; p2&lt;=right)&#123;</span><br><span class="line">    res += arr[p1] &lt; arr[p2] ? arr[p1]*(right-p2+<span class="number">1</span>) : <span class="number">0</span>;</span><br><span class="line">    arr2[i++] = arr[p1] &lt; arr[p2] ? arr[p1++] : arr[p2++];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span>(p1 &lt;= mid)&#123;</span><br><span class="line">    arr2[i++] = arr[p1++];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span>(p2 &lt;= right)&#123;</span><br><span class="line">    arr2[i++] = arr[p2++];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;arr2.length; i++)&#123;</span><br><span class="line">    arr[left + i] = arr2[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="（2）逆序对问题"><a href="#（2）逆序对问题" class="headerlink" title="（2）逆序对问题"></a>（2）逆序对问题</h4><p>在数组中，如果左边的数比右边的数大，那么这两个数就构成一个逆序对。比如数组{3,1,2,4,2,1}，其中存在的逆序对有：2,1; 3,2; 3,1; 2,4等等。要求打印出所有逆序对。此题目也可以直接用遍历的方法解出，但是时间复杂度为O(N^2)。同样可以利用归并排序的思路求解，与小和问题类似，都是merge的活用。将标准转化为右侧有多少个数比它小。</p>
+<p><strong>Java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用来记录逆序对的个数</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(arr==<span class="keyword">null</span> || arr.length&lt;<span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mergeSort(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left == right) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 打印左边存在的逆序对</span></span><br><span class="line">    mergeSort(arr, left, mid);</span><br><span class="line">    <span class="comment">// 打印右边存在的逆序对</span></span><br><span class="line">    mergeSort(arr, mid+<span class="number">1</span>, right);</span><br><span class="line">    <span class="comment">// 打印左右两边合并后存在的逆序对</span></span><br><span class="line">    merge(arr, left, right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 新的辅助数组</span></span><br><span class="line">    <span class="keyword">int</span>[] arr2 = <span class="keyword">new</span> <span class="keyword">int</span>[right - left + <span class="number">1</span>];</span><br><span class="line">    <span class="comment">// 新数组的起始位置</span></span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 左边的起始位置</span></span><br><span class="line">    <span class="keyword">int</span> p1 = left;</span><br><span class="line">    <span class="comment">// 右边的起始位置</span></span><br><span class="line">    <span class="keyword">int</span> p2 = mid + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(p1&lt;=mid &amp;&amp; p2&lt;=right) &#123;</span><br><span class="line">        <span class="comment">// 当p1处的值大于p2处的值时，p1处的值也大于p2之后位置的值</span></span><br><span class="line">        <span class="keyword">if</span>(arr[p1] &gt; arr[p2]) &#123;</span><br><span class="line">            <span class="comment">// 打印包括p2及其后的逆序对</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=p2; j&lt;=right; j++) &#123;</span><br><span class="line">                System.out.println(arr[p1] + <span class="string">" "</span> + arr[j]);</span><br><span class="line">            &#125;</span><br><span class="line">            count += (right - p2 + <span class="number">1</span>);</span><br><span class="line">            arr2[i++] = arr[p1++];</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            arr2[i++] = arr[p2++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 右侧到达边界时，左侧直接全部拷贝</span></span><br><span class="line">    <span class="keyword">while</span>(p1 &lt;= mid) &#123;</span><br><span class="line">        arr2[i++] = arr[p1++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 左侧到达边界时，右侧直接全部拷贝</span></span><br><span class="line">    <span class="keyword">while</span>(p2 &lt;= right) &#123;</span><br><span class="line">        arr2[i++] = arr[p2++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;arr2.length; i++) &#123;</span><br><span class="line">        arr[left + i] = arr2[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] arr = &#123;<span class="number">3</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">2</span>&#125;;</span><br><span class="line">    reverse(arr);</span><br><span class="line">    System.out.println(<span class="string">"共有"</span>+count+<span class="string">"个逆序对"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a =[<span class="number">3</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">2</span>];</span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line">reverse(a);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"共有"</span>+count+<span class="string">"个逆序对"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverse</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(arr===<span class="literal">null</span> || arr.length&lt;<span class="number">2</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  mergeSort(arr, <span class="number">0</span>, arr.length<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span>(<span class="params">arr, left, right</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(left === right)&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">  mergeSort(arr, left, mid);</span><br><span class="line">  mergeSort(arr, mid+<span class="number">1</span>, right);</span><br><span class="line">  merge(arr, left, right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">arr, left, right</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> arr2 = [];</span><br><span class="line">  <span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">var</span> p1 = left;</span><br><span class="line">  <span class="keyword">var</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">var</span> p2 = mid + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(p1&lt;=mid &amp;&amp; p2&lt;=right)&#123;</span><br><span class="line">    <span class="keyword">if</span>(arr[p1] &gt; arr[p2])&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">var</span> j=p2; j&lt;=right; j++)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(arr[p1] + <span class="string">" "</span> + arr[p2]);</span><br><span class="line">      &#125;</span><br><span class="line">      arr2[i++] = arr[p1++];</span><br><span class="line">      count += (right - p2 + <span class="number">1</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      arr2[i++] = arr[p2++];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span>(p1 &lt;= mid)&#123;</span><br><span class="line">    arr2[i++] = arr[p1++];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span>(p2 &lt;= mid)&#123;</span><br><span class="line">    arr2[i++] = arr[p2++];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;arr2.length; i++)&#123;</span><br><span class="line">    arr[left+i] = arr2[i];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/31/algorithm1-4/" rel="next" title="算法学习笔记（四）递归中时间复杂度的估算">
+                <i class="fa fa-chevron-left"></i> 算法学习笔记（四）递归中时间复杂度的估算
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="异名者">
+            
+              <p class="site-author-name" itemprop="name">异名者</p>
+              <div class="site-description motion-element" itemprop="description">description</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/yimingzhe" title="GitHub &rarr; https://github.com/yimingzhe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-归并排序"><span class="nav-number">1.</span> <span class="nav-text">一. 归并排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-归并排序的扩展"><span class="nav-number">2.</span> <span class="nav-text">二. 归并排序的扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）小和问题"><span class="nav-number">2.1.</span> <span class="nav-text">（1）小和问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）逆序对问题"><span class="nav-number">2.2.</span> <span class="nav-text">（2）逆序对问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">异名者</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">26k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">24 分钟</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
