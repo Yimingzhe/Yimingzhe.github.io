@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="介绍jQuery中的“$”符号，并梳理相关知识点">
-<meta name="keywords" content="jQuery">
+  <meta name="description" content="介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。">
+<meta name="keywords" content="algorithm,Java,JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jQuery中的“$”及相关知识点">
-<meta property="og:url" content="https://Yimingzhe.github.io/2019/06/02/web01/index.html">
+<meta property="og:title" content="算法学习笔记（七）快速排序">
+<meta property="og:url" content="https://Yimingzhe.github.io/2019/06/24/algorithm2-3/index.html">
 <meta property="og:site_name" content="Yimingzhe">
-<meta property="og:description" content="介绍jQuery中的“$”符号，并梳理相关知识点">
+<meta property="og:description" content="介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-02T08:16:21.266Z">
+<meta property="og:updated_time" content="2019-06-23T19:12:11.180Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jQuery中的“$”及相关知识点">
-<meta name="twitter:description" content="介绍jQuery中的“$”符号，并梳理相关知识点">
+<meta name="twitter:title" content="算法学习笔记（七）快速排序">
+<meta name="twitter:description" content="介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="https://Yimingzhe.github.io/2019/06/02/web01/">
+  <link rel="canonical" href="https://Yimingzhe.github.io/2019/06/24/algorithm2-3/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>jQuery中的“$”及相关知识点 | Yimingzhe</title>
+  <title>算法学习笔记（七）快速排序 | Yimingzhe</title>
   
 
 
@@ -328,7 +328,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2019/06/02/web01/">
+    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2019/06/24/algorithm2-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="异名者">
@@ -345,7 +345,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">jQuery中的“$”及相关知识点
+          <h2 class="post-title" itemprop="name headline">算法学习笔记（七）快速排序
 
               
             
@@ -371,7 +371,7 @@
                 
               
 
-              <time title="创建时间：2019-06-02 16:12:38 / 修改时间：16:16:21" itemprop="dateCreated datePublished" datetime="2019-06-02T16:12:38+08:00">2019-06-02</time>
+              <time title="创建时间：2019-06-24 02:13:22 / 修改时间：03:12:11" itemprop="dateCreated datePublished" datetime="2019-06-24T02:13:22+08:00">2019-06-24</time>
             
 
             
@@ -393,7 +393,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Web-Technologies/" itemprop="url" rel="index"><span itemprop="name">Web Technologies</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a></span>
 
                 
                 
@@ -429,7 +429,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">1.9k</span>
+                <span title="本文字数">1k</span>
               
 
               
@@ -443,13 +443,13 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">2 分钟</span>
+                <span title="阅读时长">1 分钟</span>
               
             </div>
           
 
           
-            <div class="post-description">介绍jQuery中的“$”符号，并梳理相关知识点</div>
+            <div class="post-description">介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。</div>
           
 
         </div>
@@ -465,125 +465,22 @@
       
 
       
-        <p>在jQuery中，jQuery === $，两者是完全等效的，只不过”$“是一种更常用的简写方式。”$”实际上表示的是一个函数名，函数$()随着括号内的参数不同，功能也不同。以下是常见的几种情况：</p>
-<h3 id="（一）参数是function，作为入口函数"><a href="#（一）参数是function，作为入口函数" class="headerlink" title="（一）参数是function，作为入口函数"></a>（一）参数是function，作为入口函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(function()&#123;</span><br><span class="line">    // 表示调用入口函数</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(document).ready(function()&#123;</span><br><span class="line">    // 另一种入口函数的写法</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>JavaScript的入口函数<code>window.onload = function(){}</code>与jQuery入口函数的区别是：js要等页面中的所有资源加载完毕才执行，包括加载图片，文件等；而jQuery入口函数等待文档树加载完成就执行，不会等待图片，文件的加载。</p>
-<h3 id="（二）参数是DOM对象，将其转化为jQuery对象"><a href="#（二）参数是DOM对象，将其转化为jQuery对象" class="headerlink" title="（二）参数是DOM对象，将其转化为jQuery对象"></a>（二）参数是DOM对象，将其转化为jQuery对象</h3><p>例如第一部分介绍的<code>$(document).ready(function(){ });</code> 将DOM对象用”$”符号包裹，就将其转化成了jQuery对象，因此可以直接调用jQuery对象的ready()方法。</p>
-<p>在此回顾一下jQuery对象和DOM对象之间的区别。DOM对象是指使用JavaScript中的方法获取到的页面元素对象，DOM对象只能够使用DOM对象的方法和属性；jQuery对象是使用jQuery方法获取到的元素对象，也只能够使用jQuery对象的方法。实际上，jQuery对象是包装了DOM对象的集合（伪数组)，两者可以相互转换。将DOM对象作为参数传入$()就转化成了jQuery对象；因为jQuery对象是伪数组，直接以数组的方式取出来就转化成了DOM对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 以jQuery方式获取到的jQuery对象</span><br><span class="line">var flower = $(&quot;li&quot;);</span><br><span class="line"></span><br><span class="line">// 以数组索引的方式取出，就转化成了DOM对象，可以直接使用DOM对象方法</span><br><span class="line">flower[1].style.backgroundColor = &quot;red&quot;;</span><br><span class="line"></span><br><span class="line">// 也可以用get()方式取出，但一般用上面一种，更为简单易懂</span><br><span class="line">flower.get(2).style.backgroundColor = &quot;yellow&quot;;</span><br></pre></td></tr></table></figure>
-<h3 id="（三）参数是一个字符串，用来获取对象"><a href="#（三）参数是一个字符串，用来获取对象" class="headerlink" title="（三）参数是一个字符串，用来获取对象"></a>（三）参数是一个字符串，用来获取对象</h3><p>例如<code>$(&quot;#sun&quot;).css(&quot;backgroundColor&quot;, &quot;red&quot;);</code> 获取到了id为sun的jQuery对象。除了获取id之外，jQuery基本兼容了css1到css3的选择器，并增加了更多。下面简单总结一下常用的jQuery选择器。</p>
-<table>
-<thead>
-<tr>
-<th>基本选择器</th>
-<th></th>
-<th>（与css选择器用法相同）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ID选择器</td>
-<td>$(“#id”)</td>
-<td>获得指定ID的元素</td>
-</tr>
-<tr>
-<td>类选择器</td>
-<td>$(“.class”)</td>
-<td>获得指定类的元素</td>
-</tr>
-<tr>
-<td>标签选择器</td>
-<td>$(“div”)</td>
-<td>获得指定标签的元素</td>
-</tr>
-<tr>
-<td>交集选择器</td>
-<td>$(“div.flower”)</td>
-<td>获得div中的类为flower的元素，中间无空格</td>
-</tr>
-<tr>
-<td>并集选择器</td>
-<td>$(“.flower, .grass, #moon”）</td>
-<td>逗号分隔，满足一个即可</td>
-</tr>
-<tr>
-<td><strong>层级选择器</strong></td>
-<td></td>
-<td><strong>(与css选择器用法相同)</strong></td>
-</tr>
-<tr>
-<td>子代选择器</td>
-<td>$(“ul&gt;li”)</td>
-<td>获取子代元素，第一后代</td>
-</tr>
-<tr>
-<td>后代选择器</td>
-<td>$(“ul li”)</td>
-<td>获取ul下所有li，不仅是子代，还可以是子代的子代等</td>
-</tr>
-<tr>
-<td><strong>过滤选择器</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>:eq(index)</td>
-<td>$(“li:eq(3)”)</td>
-<td>获取li中索引为3的元素</td>
-</tr>
-<tr>
-<td>:even</td>
-<td>$(“li:even”)</td>
-<td>获取li中索引为偶数的元素（索引从0开始，所以视觉效果是获取了奇数号的元素）</td>
-</tr>
-<tr>
-<td>:odd</td>
-<td>$(“li:odd”)</td>
-<td>获取li中索引为奇数的元素</td>
-</tr>
-<tr>
-<td><strong>筛选选择器</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>children(selector)</td>
-<td>$(“ul”).children(“li”)</td>
-<td>相当于子代选择器 $(“ul&gt;li”)</td>
-</tr>
-<tr>
-<td>find(selector)</td>
-<td>$(“ul”).find(“li”)</td>
-<td>相当于后代选择器 $(“ul li”)</td>
-</tr>
-<tr>
-<td>siblings(selector)</td>
-<td>$(“#flower”).siblings(“li”)</td>
-<td>获取兄弟节点，不包括自己</td>
-</tr>
-<tr>
-<td>parent()</td>
-<td>$(“#flower”).parent()</td>
-<td>获取父节点</td>
-</tr>
-<tr>
-<td>eq(index)</td>
-<td>$(“li”).eq(3)</td>
-<td>相当于$(“li:eq(3)”)</td>
-</tr>
-<tr>
-<td>next()</td>
-<td>$(“#flower”).next()</td>
-<td>获取上一个兄弟元素</td>
-</tr>
-<tr>
-<td>prev()</td>
-<td>$(“#flower”).prev()</td>
-<td>获取下一个兄弟元素</td>
-</tr>
-</tbody>
-</table>
+        <p><strong>（一）给定数组arr和一个数num，要求将数组中小于等于num的数防在数组左边，大于num的数放在数组右边（左部分和右部分内部无需有序)。并需要满足额外空间复杂度O(1)，时间复杂度O(N)。</strong></p>
+<p>思路：首先可以假定一个“小于等于区域”，用一个变量记录这个区域的边界，初始状态是“小于等于区域”不包括任何数，位于数组左侧之外。然后用另一个变量i记录位置。那么可以分为两种情况：</p>
+<p>（1）<strong>arr[i] &lt;= num</strong>  ——&gt; 当前数和“小于等于区域”的下一个数交换，“小于等于区域”向右扩一位，当前数跳至下一个；</p>
+<p>（2） <strong>arr[i] &gt; num</strong> ——&gt; 当前数直接跳下一个</p>
+<p>也就是在遍历的过程中已经拉出了区间，使得满足题目要求。用了有限几个变量，因此额外空间复杂度是O(1)，只需要遍历一次，满足时间复杂度O(N)的要求。</p>
+<p><strong>（二）荷兰国旗问题</strong></p>
+<p><strong>给定数组arr和一个数num，要求将小于num的数放在数组左边，等于num的数放在数组中间，大于num的数放在数组右边。并需要满足额外空间复杂度O(1)，时间复杂度O(N)。</strong></p>
+<p>思路：和上面的问题类似，只不过要假定一个“小于区域”和一个“大于区域”。设想初始状态下“小于区域”在数组的左侧之外，“大于区域”在数组的右侧之外，都未包含任意数。同样需要变量i记录位置，那么可以分为三种情况：</p>
+<p>（1）<strong>arr[i] &lt; num</strong> ——&gt; 当前数和“小于区域”的下一个数交换，“小于区域”向右扩一个位置，当前数跳至下一个；</p>
+<p>（2）<strong>arr[i] = num </strong>——&gt;当前数直接跳至下一个</p>
+<p>（3） <strong>arr[i] &gt; num</strong> ——&gt; 当前数与“大于区域”前一个数交换，“大于区域”向左扩一位，当前数定在原地不变（因为交换过后的数还未比较判断）。</p>
+<p><strong>（三）原始快速排序</strong></p>
+<p>将数组的最后一个值作为荷兰国旗问题中的num，然后通过该问题的思路将数组分为三部分：左侧&lt; num；中间== num，右侧&gt;num；然后递归执行左侧和右侧部分。</p>
+<p>当num越靠近两侧时，时间复杂度越高，越靠近中间时，时间复杂度越低。此版本的快速排序时间复杂度为O(N^2)。</p>
+<p><strong>（四）随机快速排序（改进版）</strong></p>
+<p>在数组中随机选择一个数作为num，同样将数组分为三部分：左侧&lt; num；中间== num，右侧&gt;num；然后递归执行左侧和右侧部分。时间复杂度为<strong>O（N&times;logN）</strong>。</p>
 
       
     </div>
@@ -617,7 +514,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="https://Yimingzhe.github.io/2019/06/02/web01/" title="jQuery中的“$”及相关知识点">https://Yimingzhe.github.io/2019/06/02/web01/</a>
+    <a href="https://Yimingzhe.github.io/2019/06/24/algorithm2-3/" title="算法学习笔记（七）快速排序">https://Yimingzhe.github.io/2019/06/24/algorithm2-3/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -630,7 +527,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/jQuery/" rel="tag"># jQuery</a>
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
         </div>
       
@@ -643,8 +544,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/01/algorithm2-1/" rel="next" title="算法学习笔记（五）归并排序及相关扩展">
-                <i class="fa fa-chevron-left"></i> 算法学习笔记（五）归并排序及相关扩展
+              <a href="/2019/06/13/algorithm2-2/" rel="next" title="算法学习笔记（六）堆结构">
+                <i class="fa fa-chevron-left"></i> 算法学习笔记（六）堆结构
               </a>
             
           </div>
@@ -653,8 +554,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/05/web02/" rel="prev" title="Node.js mongoose按照时间范围筛选查询结果">
-                Node.js mongoose按照时间范围筛选查询结果 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/07/web03/" rel="prev" title="NodeJS连接MySQL以及基本操作">
+                NodeJS连接MySQL以及基本操作 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -698,17 +599,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -834,23 +726,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#（一）参数是function，作为入口函数"><span class="nav-number">1.</span> <span class="nav-text">（一）参数是function，作为入口函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（二）参数是DOM对象，将其转化为jQuery对象"><span class="nav-number">2.</span> <span class="nav-text">（二）参数是DOM对象，将其转化为jQuery对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（三）参数是一个字符串，用来获取对象"><span class="nav-number">3.</span> <span class="nav-text">（三）参数是一个字符串，用来获取对象</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
