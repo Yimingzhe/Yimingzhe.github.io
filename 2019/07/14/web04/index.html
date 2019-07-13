@@ -96,18 +96,21 @@
 
 
 
-  <meta name="description" content="介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。">
-<meta name="keywords" content="algorithm,Java,JavaScript">
+  <meta name="description" content="记录在Heroku上部署Node应用的方法。数据库使用MySQL,采用JawsDB在Heroku上管理数据库。">
+<meta name="keywords" content="Node.js,MySQL,Heroku">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法学习笔记（七）快速排序">
-<meta property="og:url" content="https://Yimingzhe.github.io/2019/06/24/algorithm2-3/index.html">
+<meta property="og:title" content="在Heroku上部署Node应用">
+<meta property="og:url" content="https://Yimingzhe.github.io/2019/07/14/web04/index.html">
 <meta property="og:site_name" content="Yimingzhe">
-<meta property="og:description" content="介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。">
+<meta property="og:description" content="记录在Heroku上部署Node应用的方法。数据库使用MySQL,采用JawsDB在Heroku上管理数据库。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-23T19:12:11.180Z">
+<meta property="og:image" content="https://yimingzhe.github.io/2019/07/14/web04/setting.jpg">
+<meta property="og:image" content="https://yimingzhe.github.io/2019/07/14/web04/Navicat.jpg">
+<meta property="og:updated_time" content="2019-07-13T19:57:52.707Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="算法学习笔记（七）快速排序">
-<meta name="twitter:description" content="介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。">
+<meta name="twitter:title" content="在Heroku上部署Node应用">
+<meta name="twitter:description" content="记录在Heroku上部署Node应用的方法。数据库使用MySQL,采用JawsDB在Heroku上管理数据库。">
+<meta name="twitter:image" content="https://yimingzhe.github.io/2019/07/14/web04/setting.jpg">
 
 
 
@@ -115,7 +118,7 @@
 
   
   
-  <link rel="canonical" href="https://Yimingzhe.github.io/2019/06/24/algorithm2-3/">
+  <link rel="canonical" href="https://Yimingzhe.github.io/2019/07/14/web04/">
 
 
 
@@ -125,7 +128,7 @@
   };
 </script>
 
-  <title>算法学习笔记（七）快速排序 | Yimingzhe</title>
+  <title>在Heroku上部署Node应用 | Yimingzhe</title>
   
 
 
@@ -328,7 +331,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2019/06/24/algorithm2-3/">
+    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2019/07/14/web04/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="异名者">
@@ -345,7 +348,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">算法学习笔记（七）快速排序
+          <h2 class="post-title" itemprop="name headline">在Heroku上部署Node应用
 
               
             
@@ -371,7 +374,7 @@
                 
               
 
-              <time title="创建时间：2019-06-24 02:13:22 / 修改时间：03:12:11" itemprop="dateCreated datePublished" datetime="2019-06-24T02:13:22+08:00">2019-06-24</time>
+              <time title="创建时间：2019-07-14 02:55:34 / 修改时间：03:57:52" itemprop="dateCreated datePublished" datetime="2019-07-14T02:55:34+08:00">2019-07-14</time>
             
 
             
@@ -393,7 +396,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Web-Technologies/" itemprop="url" rel="index"><span itemprop="name">Web Technologies</span></a></span>
 
                 
                 
@@ -429,7 +432,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">1k</span>
+                <span title="本文字数">2.1k</span>
               
 
               
@@ -443,13 +446,13 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">2 分钟</span>
               
             </div>
           
 
           
-            <div class="post-description">介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。</div>
+            <div class="post-description">记录在Heroku上部署Node应用的方法。数据库使用MySQL,采用JawsDB在Heroku上管理数据库。</div>
           
 
         </div>
@@ -465,22 +468,16 @@
       
 
       
-        <p><strong>（一）给定数组arr和一个数num，要求将数组中小于等于num的数防在数组左边，大于num的数放在数组右边（左部分和右部分内部无需有序)。并需要满足额外空间复杂度O(1)，时间复杂度O(N)。</strong></p>
-<p>思路：首先可以假定一个“小于等于区域”，用一个变量记录这个区域的边界，初始状态是“小于等于区域”不包括任何数，位于数组左侧之外。然后用另一个变量i记录位置。那么可以分为两种情况：</p>
-<p>（1）<strong>arr[i] &lt;= num</strong>  ——&gt; 当前数和“小于等于区域”的下一个数交换，“小于等于区域”向右扩一位，当前数跳至下一个；</p>
-<p>（2） <strong>arr[i] &gt; num</strong> ——&gt; 当前数直接跳下一个</p>
-<p>也就是在遍历的过程中已经拉出了区间，使得满足题目要求。用了有限几个变量，因此额外空间复杂度是O(1)，只需要遍历一次，满足时间复杂度O(N)的要求。</p>
-<p><strong>（二）荷兰国旗问题</strong></p>
-<p><strong>给定数组arr和一个数num，要求将小于num的数放在数组左边，等于num的数放在数组中间，大于num的数放在数组右边。并需要满足额外空间复杂度O(1)，时间复杂度O(N)。</strong></p>
-<p>思路：和上面的问题类似，只不过要假定一个“小于区域”和一个“大于区域”。设想初始状态下“小于区域”在数组的左侧之外，“大于区域”在数组的右侧之外，都未包含任意数。同样需要变量i记录位置，那么可以分为三种情况：</p>
-<p>（1）<strong>arr[i] &lt; num</strong> ——&gt; 当前数和“小于区域”的下一个数交换，“小于区域”向右扩一个位置，当前数跳至下一个；</p>
-<p>（2）<strong>arr[i] = num </strong>——&gt;当前数直接跳至下一个</p>
-<p>（3） <strong>arr[i] &gt; num</strong> ——&gt; 当前数与“大于区域”前一个数交换，“大于区域”向左扩一位，当前数定在原地不变（因为交换过后的数还未比较判断）。</p>
-<p><strong>（三）原始快速排序</strong></p>
-<p>将数组的最后一个值作为荷兰国旗问题中的num，然后通过该问题的思路将数组分为三部分：左侧&lt; num；中间== num，右侧&gt;num；然后递归执行左侧和右侧部分。</p>
-<p>当num越靠近两侧时，时间复杂度越高，越靠近中间时，时间复杂度越低。此版本的快速排序时间复杂度为O(N^2)。</p>
-<p><strong>（四）随机快速排序（改进版）</strong></p>
-<p>在数组中随机选择一个数作为num，同样将数组分为三部分：左侧&lt; num；中间== num，右侧&gt;num；然后递归执行左侧和右侧部分。时间复杂度为<strong>O（N&times;logN）</strong>。</p>
+        <h3 id="（一）部署Node应用"><a href="#（一）部署Node应用" class="headerlink" title="（一）部署Node应用"></a>（一）部署Node应用</h3><p>在<a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs" title="tutorial" target="_blank" rel="noopener">Heroku Node官方教程</a>可以看到常用的基本操作。也可以直接通过GitHub部署，Create new app填好基本名称等信息后，在Deployment method中点击GitHub，选择想要部署的项目，点击部署分支，等待dependencies安装完毕后，就可以查看了。</p>
+<p>有一点需要说明的是，在package.json文件中，除了基本的依赖项要注明之外，还要指明“engines”，以我此次的该文件为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;rr&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;0.0.0&quot;,</span><br><span class="line">  &quot;private&quot;: true,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;start&quot;: &quot;node ./bin/www&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;engines&quot;: &#123;</span><br><span class="line">    &quot;node&quot;: &quot;10.15.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;cookie-parser&quot;: &quot;~1.4.4&quot;,</span><br><span class="line">    &quot;debug&quot;: &quot;~2.6.9&quot;,</span><br><span class="line">    &quot;ejs&quot;: &quot;~2.6.1&quot;,</span><br><span class="line">    &quot;express&quot;: &quot;~4.16.1&quot;,</span><br><span class="line">    &quot;http-errors&quot;: &quot;~1.6.3&quot;,</span><br><span class="line">    &quot;morgan&quot;: &quot;~1.9.1&quot;,</span><br><span class="line">    &quot;mysql&quot;: &quot;^2.17.1&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="（二）-JawsDB-MySQL"><a href="#（二）-JawsDB-MySQL" class="headerlink" title="（二） JawsDB MySQL"></a>（二） JawsDB MySQL</h3><p>在Heroku Add-ons中可以找到很多辅助开发和扩展的工具，很容易看到JawsDB MySQL。免费版可以满足基本使用，但是添加它到自己的应用之前需要进行绑定银行卡验证（登录之后点击右上角的头像图标，选择“Account settings”, 然后在“Billing”栏中可以进行绑定和解绑银行卡的操作）。添加到所需的应用之后，在Dashboard中查看自己的项目，“Recources”中的“Add-ons”就已经可以看到JawsDB，点击它可以展示基本的设置，也就是连接数据库必要的信息。如下图所示，下图ps掉了相应的value。</p>
+<img src="/2019/07/14/web04/setting.jpg" title="JawsDB">
+<p>使用Navicat在JawsDB的数据库中建表也是很方便的。首先要对照上面截图的settings中的信息，在Navicat中新建连接，填上对应的内容。然后就可以进行基本建表操作，或者直接运行之前写好的SQL文件。</p>
+<img src="/2019/07/14/web04/Navicat.jpg" title="新建连接">
+<p>在app的代码中修改数据库的设置是重要的一步。我原本的设置在myLibs/mysql.js中，只需要添加对JawsDB连接的代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">var mysql = require(&quot;mysql&quot;);</span><br><span class="line"></span><br><span class="line">if(process.env.JAWSDB_URL) &#123;</span><br><span class="line">    // 针对连接JAWSDB的设置</span><br><span class="line">    var pool = mysql.createPool(process.env.JAWSDB_URL);</span><br><span class="line">&#125; else&#123;</span><br><span class="line">    // 原本对localhost的设置</span><br><span class="line">    var pool = mysql.createPool(&#123;</span><br><span class="line">        host: &apos;localhost&apos;,</span><br><span class="line">        user: &apos;root&apos;,</span><br><span class="line">        password: &apos;000000&apos;,</span><br><span class="line">        database: &apos;retro&apos;,</span><br><span class="line">        port: &apos;3306&apos;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var query = function(sql, options, callback)&#123;</span><br><span class="line">    pool.getConnection(function(err, conn)&#123;</span><br><span class="line">        conn.release();</span><br><span class="line">        conn.query(sql, options, function(err, results, fields)&#123;</span><br><span class="line">                callback(err, results, fields);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports = query;</span><br></pre></td></tr></table></figure>
+<p>好了，现在就可以重新点击项目，查看是否可以成功运行了！</p>
 
       
     </div>
@@ -514,7 +511,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="https://Yimingzhe.github.io/2019/06/24/algorithm2-3/" title="算法学习笔记（七）快速排序">https://Yimingzhe.github.io/2019/06/24/algorithm2-3/</a>
+    <a href="https://Yimingzhe.github.io/2019/07/14/web04/" title="在Heroku上部署Node应用">https://Yimingzhe.github.io/2019/07/14/web04/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -527,11 +524,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+            <a href="/tags/Node-js/" rel="tag"># Node.js</a>
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+            <a href="/tags/Heroku/" rel="tag"># Heroku</a>
           
         </div>
       
@@ -544,8 +541,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/13/algorithm2-2/" rel="next" title="算法学习笔记（六）堆结构">
-                <i class="fa fa-chevron-left"></i> 算法学习笔记（六）堆结构
+              <a href="/2019/07/07/web03/" rel="next" title="NodeJS连接MySQL以及基本操作">
+                <i class="fa fa-chevron-left"></i> NodeJS连接MySQL以及基本操作
               </a>
             
           </div>
@@ -553,10 +550,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/07/web03/" rel="prev" title="NodeJS连接MySQL以及基本操作">
-                NodeJS连接MySQL以及基本操作 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -599,8 +592,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -728,6 +730,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#（一）部署Node应用"><span class="nav-number">1.</span> <span class="nav-text">（一）部署Node应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（二）-JawsDB-MySQL"><span class="nav-number">2.</span> <span class="nav-text">（二） JawsDB MySQL</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
