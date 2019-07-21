@@ -104,13 +104,15 @@
 <meta property="og:site_name" content="Yimingzhe">
 <meta property="og:description" content="记录在Heroku上部署Node应用的方法。数据库使用MySQL,采用JawsDB在Heroku上管理数据库。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://yimingzhe.github.io/2019/07/14/web04/new.jpg">
+<meta property="og:image" content="https://yimingzhe.github.io/2019/07/14/web04/method.jpg">
 <meta property="og:image" content="https://yimingzhe.github.io/2019/07/14/web04/setting.jpg">
 <meta property="og:image" content="https://yimingzhe.github.io/2019/07/14/web04/Navicat.jpg">
-<meta property="og:updated_time" content="2019-07-13T19:57:52.707Z">
+<meta property="og:updated_time" content="2019-07-19T18:16:52.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Heroku上部署Node应用">
 <meta name="twitter:description" content="记录在Heroku上部署Node应用的方法。数据库使用MySQL,采用JawsDB在Heroku上管理数据库。">
-<meta name="twitter:image" content="https://yimingzhe.github.io/2019/07/14/web04/setting.jpg">
+<meta name="twitter:image" content="https://yimingzhe.github.io/2019/07/14/web04/new.jpg">
 
 
 
@@ -374,12 +376,24 @@
                 
               
 
-              <time title="创建时间：2019-07-14 02:55:34 / 修改时间：03:57:52" itemprop="dateCreated datePublished" datetime="2019-07-14T02:55:34+08:00">2019-07-14</time>
+              <time title="创建时间：2019-07-14 02:55:34" itemprop="dateCreated datePublished" datetime="2019-07-14T02:55:34+08:00">2019-07-14</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-20 02:16:52" itemprop="dateModified" datetime="2019-07-20T02:16:52+08:00">2019-07-20</time>
               
             
           </span>
@@ -469,6 +483,8 @@
 
       
         <h3 id="（一）部署Node应用"><a href="#（一）部署Node应用" class="headerlink" title="（一）部署Node应用"></a>（一）部署Node应用</h3><p>在<a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs" title="tutorial" target="_blank" rel="noopener">Heroku Node官方教程</a>可以看到常用的基本操作。也可以直接通过GitHub部署，Create new app填好基本名称等信息后，在Deployment method中点击GitHub，选择想要部署的项目，点击部署分支，等待dependencies安装完毕后，就可以查看了。</p>
+<img src="/2019/07/14/web04/new.jpg" title="Create new app">
+<img src="/2019/07/14/web04/method.jpg" title="Deployment method">
 <p>有一点需要说明的是，在package.json文件中，除了基本的依赖项要注明之外，还要指明“engines”，以我此次的该文件为例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;rr&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;0.0.0&quot;,</span><br><span class="line">  &quot;private&quot;: true,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;start&quot;: &quot;node ./bin/www&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;engines&quot;: &#123;</span><br><span class="line">    &quot;node&quot;: &quot;10.15.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;cookie-parser&quot;: &quot;~1.4.4&quot;,</span><br><span class="line">    &quot;debug&quot;: &quot;~2.6.9&quot;,</span><br><span class="line">    &quot;ejs&quot;: &quot;~2.6.1&quot;,</span><br><span class="line">    &quot;express&quot;: &quot;~4.16.1&quot;,</span><br><span class="line">    &quot;http-errors&quot;: &quot;~1.6.3&quot;,</span><br><span class="line">    &quot;morgan&quot;: &quot;~1.9.1&quot;,</span><br><span class="line">    &quot;mysql&quot;: &quot;^2.17.1&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="（二）-JawsDB-MySQL"><a href="#（二）-JawsDB-MySQL" class="headerlink" title="（二） JawsDB MySQL"></a>（二） JawsDB MySQL</h3><p>在Heroku Add-ons中可以找到很多辅助开发和扩展的工具，很容易看到JawsDB MySQL。免费版可以满足基本使用，但是添加它到自己的应用之前需要进行绑定银行卡验证（登录之后点击右上角的头像图标，选择“Account settings”, 然后在“Billing”栏中可以进行绑定和解绑银行卡的操作）。添加到所需的应用之后，在Dashboard中查看自己的项目，“Recources”中的“Add-ons”就已经可以看到JawsDB，点击它可以展示基本的设置，也就是连接数据库必要的信息。如下图所示，下图ps掉了相应的value。</p>
@@ -774,7 +790,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">47k</span>
+    <span title="站点总字数">51k</span>
   
 
   
@@ -783,7 +799,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">43 分钟</span>
+    <span title="站点阅读时长">46 分钟</span>
   
 </div>
 

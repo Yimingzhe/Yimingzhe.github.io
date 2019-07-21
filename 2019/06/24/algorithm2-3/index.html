@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Yimingzhe">
 <meta property="og:description" content="介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-23T19:12:11.180Z">
+<meta property="og:updated_time" content="2019-07-21T15:36:54.262Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法学习笔记（七）快速排序">
 <meta name="twitter:description" content="介绍荷兰国旗问题，原始快速排序，随机快速排序（改进版）等。">
@@ -371,12 +371,24 @@
                 
               
 
-              <time title="创建时间：2019-06-24 02:13:22 / 修改时间：03:12:11" itemprop="dateCreated datePublished" datetime="2019-06-24T02:13:22+08:00">2019-06-24</time>
+              <time title="创建时间：2019-06-24 02:13:22" itemprop="dateCreated datePublished" datetime="2019-06-24T02:13:22+08:00">2019-06-24</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-21 23:36:54" itemprop="dateModified" datetime="2019-07-21T23:36:54+08:00">2019-07-21</time>
               
             
           </span>
@@ -429,7 +441,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">1k</span>
+                <span title="本文字数">5.1k</span>
               
 
               
@@ -443,7 +455,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">5 分钟</span>
               
             </div>
           
@@ -465,7 +477,7 @@
       
 
       
-        <p><strong>（一）给定数组arr和一个数num，要求将数组中小于等于num的数防在数组左边，大于num的数放在数组右边（左部分和右部分内部无需有序)。并需要满足额外空间复杂度O(1)，时间复杂度O(N)。</strong></p>
+        <p><strong>（一）给定数组arr和一个数num，要求将数组中小于等于num的数放在数组左边，大于num的数放在数组右边（左部分和右部分内部无需有序)。并需要满足额外空间复杂度O(1)，时间复杂度O(N)。</strong></p>
 <p>思路：首先可以假定一个“小于等于区域”，用一个变量记录这个区域的边界，初始状态是“小于等于区域”不包括任何数，位于数组左侧之外。然后用另一个变量i记录位置。那么可以分为两种情况：</p>
 <p>（1）<strong>arr[i] &lt;= num</strong>  ——&gt; 当前数和“小于等于区域”的下一个数交换，“小于等于区域”向右扩一位，当前数跳至下一个；</p>
 <p>（2） <strong>arr[i] &gt; num</strong> ——&gt; 当前数直接跳下一个</p>
@@ -476,11 +488,19 @@
 <p>（1）<strong>arr[i] &lt; num</strong> ——&gt; 当前数和“小于区域”的下一个数交换，“小于区域”向右扩一个位置，当前数跳至下一个；</p>
 <p>（2）<strong>arr[i] = num </strong>——&gt;当前数直接跳至下一个</p>
 <p>（3） <strong>arr[i] &gt; num</strong> ——&gt; 当前数与“大于区域”前一个数交换，“大于区域”向左扩一位，当前数定在原地不变（因为交换过后的数还未比较判断）。</p>
+<p><strong>Java</strong> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] partition(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right, <span class="keyword">int</span> num) &#123;</span><br><span class="line">      <span class="comment">// 记录“小于区域”的边界</span></span><br><span class="line">     <span class="keyword">int</span> less = left - <span class="number">1</span>;</span><br><span class="line">     <span class="comment">// 记录“大于区域”的边界</span></span><br><span class="line">     <span class="keyword">int</span> more = right + <span class="number">1</span>;</span><br><span class="line">     <span class="comment">// 当当前数的下标比大于区域的左边界小时（直接用left记录当前数下标，就不新创建变量了）</span></span><br><span class="line">     <span class="keyword">while</span>(left &lt; more) &#123;</span><br><span class="line">         <span class="keyword">if</span>(arr[left] &lt; num) &#123;</span><br><span class="line">             <span class="comment">// 如果当前数小于num时，当前数和小于区域的下一个数交换，小于区域向右扩一位，当前数跳下一个</span></span><br><span class="line">             swap(arr, left++, ++less);</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span>(arr[left] &gt; num) &#123;</span><br><span class="line">             <span class="comment">// 如果当前数大于num，当前数和大于区域的前一个数交换，大于区域向左扩一位，当前数位置不变</span></span><br><span class="line">             swap(arr, left, --more);</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="comment">// 如果当前数等于num，直接跳下一个</span></span><br><span class="line">             left++;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> arr;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> j, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> tmp = arr[j];</span><br><span class="line">      arr[j] = arr[k];</span><br><span class="line">      arr[k] = tmp;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span>[] arr = &#123;<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">2</span>&#125;;</span><br><span class="line">      <span class="keyword">int</span>[] res= partition(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;res.length; i++) &#123;</span><br><span class="line">          System.out.println(res[i]);<span class="comment">// 1 2 3 6 4 5</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function partition(arr, left, right, num)&#123;</span><br><span class="line">    var less = left - 1;</span><br><span class="line">    var more = right + 1;</span><br><span class="line">    while(left &lt; more)&#123;</span><br><span class="line">      if(arr[left] &lt; num)&#123;</span><br><span class="line">        swap(arr, left++, ++less);</span><br><span class="line">      &#125; else if (arr[left] &gt; num)&#123;</span><br><span class="line">        swap(arr, --more, left);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        left++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return arr;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function swap(arr, i, j)&#123;</span><br><span class="line">    var temp = arr[i];</span><br><span class="line">    arr[i] = arr[j];</span><br><span class="line">    arr[j] = temp;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  var arr = [1,5,3,4,6,2];</span><br><span class="line">  console.log(partition(arr, 0, arr.length-1, 3)); // 1 2 3 6 4 5</span><br></pre></td></tr></table></figure>
 <p><strong>（三）原始快速排序</strong></p>
 <p>将数组的最后一个值作为荷兰国旗问题中的num，然后通过该问题的思路将数组分为三部分：左侧&lt; num；中间== num，右侧&gt;num；然后递归执行左侧和右侧部分。</p>
 <p>当num越靠近两侧时，时间复杂度越高，越靠近中间时，时间复杂度越低。此版本的快速排序时间复杂度为O(N^2)。</p>
 <p><strong>（四）随机快速排序（改进版）</strong></p>
-<p>在数组中随机选择一个数作为num，同样将数组分为三部分：左侧&lt; num；中间== num，右侧&gt;num；然后递归执行左侧和右侧部分。时间复杂度为<strong>O（N&times;logN）</strong>。</p>
+<p>在数组中随机选择一个数作为num，同样将数组分为三部分：左侧&lt; num；中间== num，右侧&gt;num；然后递归执行左侧和右侧部分。时间复杂度为<strong>O（N&times;logN）</strong>。快排的空间复杂度是<strong>O（logN）</strong>，在有利情况中，随机选取的数的位置接近中点，此时空间复杂度O（logN），如果偏离中点较多，那么空间复杂度为O（N），最终按概率收敛到O（logN）。和时间复杂度的计算类似，都是与概率相关的计算，是一个长期期望的值。</p>
+<p><strong>Java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span>(arr==<span class="keyword">null</span> || arr.length&lt;<span class="number">2</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         quickSort(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span>(left &lt; right) &#123;</span><br><span class="line">         swap(arr, left+(<span class="keyword">int</span>)(Math.random()*(right-left+<span class="number">1</span>)), right);</span><br><span class="line">         <span class="keyword">int</span>[] p = partition(arr, left, right);</span><br><span class="line">         quickSort(arr, left, p[<span class="number">0</span>]-<span class="number">1</span>); <span class="comment">// 小于区域的范围中递归</span></span><br><span class="line">         quickSort(arr, p[<span class="number">1</span>]+<span class="number">1</span>, right); <span class="comment">// 大于区域的范围中递归</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] partition(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right) &#123;</span><br><span class="line">     <span class="keyword">int</span> less = left - <span class="number">1</span>; <span class="comment">// 小于区右边界</span></span><br><span class="line">     <span class="keyword">int</span> more = right; <span class="comment">// 大于区左边界，arr[right]是划分值，暂时不参与</span></span><br><span class="line">     <span class="keyword">while</span>(left &lt; more) &#123;</span><br><span class="line">         <span class="keyword">if</span>(arr[left] &lt; arr[right]) &#123;</span><br><span class="line">             swap(arr, left++, ++less);</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span>(arr[left] &gt; arr[right]) &#123;</span><br><span class="line">             swap(arr, left, --more);</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             left++;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     swap(arr, more, right);</span><br><span class="line">     <span class="comment">// 返回等于区域的左边界和右边界（划分值时数组中的数，所以等于区域必存在）</span></span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;less+<span class="number">1</span>, more&#125;;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> j, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> tmp = arr[j];</span><br><span class="line">     arr[j] = arr[k];</span><br><span class="line">     arr[k] = tmp;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">function quickSort(arr)&#123;</span><br><span class="line">  if(arr==null || arr.length&lt;2)&#123;</span><br><span class="line">    return;</span><br><span class="line">  &#125; else&#123;</span><br><span class="line">    sort(arr, 0, arr.length-1);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function sort(arr, left, right)&#123;</span><br><span class="line">  if(left &lt; right)&#123;</span><br><span class="line">    swap(arr, left+Math.floor(Math.random()*(right-left+1)), right);</span><br><span class="line">    var p = partition(arr, left, right);</span><br><span class="line">    sort(arr, left, p[0]-1);</span><br><span class="line">    sort(arr, p[1]+1, right);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function partition(arr, left, right)&#123;</span><br><span class="line">  var less = left - 1;</span><br><span class="line">  var more = right;</span><br><span class="line">  while (left &lt; more) &#123;</span><br><span class="line">    if(arr[left] &lt; arr[right])&#123;</span><br><span class="line">      swap(arr, left++, ++less);</span><br><span class="line">    &#125; else if(arr[left] &gt; arr[right])&#123;</span><br><span class="line">      swap(arr, left, --more);</span><br><span class="line">    &#125; else&#123;</span><br><span class="line">      left++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  swap(arr, more, right);</span><br><span class="line">  return [less+1, more];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function swap(arr, i, j)&#123;</span><br><span class="line">  var temp = arr[i];</span><br><span class="line">  arr[i] = arr[j];</span><br><span class="line">  arr[j] = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -755,7 +775,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">47k</span>
+    <span title="站点总字数">51k</span>
   
 
   
@@ -764,7 +784,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">43 分钟</span>
+    <span title="站点阅读时长">46 分钟</span>
   
 </div>
 
