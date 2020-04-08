@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="master公式的适用场景和简介">
-<meta name="keywords" content="algorithm,Java,JavaScript">
+  <meta name="description" content="前端页面的适配方案，rem的应用。">
+<meta name="keywords" content="rem">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法学习笔记（四）递归中时间复杂度的估算">
-<meta property="og:url" content="https://Yimingzhe.github.io/2019/05/31/algorithm1-4/index.html">
+<meta property="og:title" content="前端rem的应用">
+<meta property="og:url" content="https://Yimingzhe.github.io/2020/04/08/web09/index.html">
 <meta property="og:site_name" content="Yimingzhe">
-<meta property="og:description" content="master公式的适用场景和简介">
+<meta property="og:description" content="前端页面的适配方案，rem的应用。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-31T13:32:39.771Z">
+<meta property="og:updated_time" content="2020-04-08T12:57:32.784Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="算法学习笔记（四）递归中时间复杂度的估算">
-<meta name="twitter:description" content="master公式的适用场景和简介">
+<meta name="twitter:title" content="前端rem的应用">
+<meta name="twitter:description" content="前端页面的适配方案，rem的应用。">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="https://Yimingzhe.github.io/2019/05/31/algorithm1-4/">
+  <link rel="canonical" href="https://Yimingzhe.github.io/2020/04/08/web09/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>算法学习笔记（四）递归中时间复杂度的估算 | Yimingzhe</title>
+  <title>前端rem的应用 | Yimingzhe</title>
   
 
 
@@ -328,7 +328,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2019/05/31/algorithm1-4/">
+    <link itemprop="mainEntityOfPage" href="https://Yimingzhe.github.io/2020/04/08/web09/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="异名者">
@@ -345,7 +345,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">算法学习笔记（四）递归中时间复杂度的估算
+          <h2 class="post-title" itemprop="name headline">前端rem的应用
 
               
             
@@ -371,7 +371,7 @@
                 
               
 
-              <time title="创建时间：2019-05-31 21:28:35 / 修改时间：21:32:39" itemprop="dateCreated datePublished" datetime="2019-05-31T21:28:35+08:00">2019-05-31</time>
+              <time title="创建时间：2020-04-08 20:39:38 / 修改时间：20:57:32" itemprop="dateCreated datePublished" datetime="2020-04-08T20:39:38+08:00">2020-04-08</time>
             
 
             
@@ -393,7 +393,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Web-Technologies/" itemprop="url" rel="index"><span itemprop="name">Web Technologies</span></a></span>
 
                 
                 
@@ -429,7 +429,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.2k</span>
+                <span title="本文字数">2.6k</span>
               
 
               
@@ -449,7 +449,7 @@
           
 
           
-            <div class="post-description">master公式的适用场景和简介</div>
+            <div class="post-description">前端页面的适配方案，rem的应用。</div>
           
 
         </div>
@@ -465,19 +465,18 @@
       
 
       
-        <p>如果递归行为符合<strong>T(N) = aT(N/b) + O(N^d)</strong>，就可以直接利用master公式来得到时间复杂度。a代表子过程调用的次数，N/b是子问题规模，除了子过程之外的部分的时间复杂度需要满足O(N^d)。其中要注意的是，想要使用master公式，<strong>子过程的规模要相同</strong>，都是N/b。</p>
-<p>Master公式：</p>
-<p>（1）log<sub>b</sub>a &gt; d  —&gt;  O(N^(log<sub>b</sub>a))</p>
-<p>（2）log<sub>b</sub>a &lt; d  —&gt;  O(N^d)</p>
-<p>（3）log<sub>b</sub>a = d  —&gt;  O(N^d * logN)</p>
-<p>“获得一个数组中的最大值”可以直接通过遍历来完成，但为了解释上述知识点，用递归的方式来实现：先找到中点位置，分别求出并比较左右两边数的最大值，递归停止的条件是左右下标相同，也就是同一个位置。具体代码如下：</p>
-<p><strong>Java</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMax</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> process(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// the base case</span></span><br><span class="line">        <span class="keyword">if</span>(left == right) &#123;</span><br><span class="line">            <span class="keyword">return</span> arr[left];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> leftMax = process(arr, left, mid);</span><br><span class="line">        <span class="keyword">int</span> rightMax = process(arr, mid+<span class="number">1</span>, right);</span><br><span class="line">        <span class="keyword">return</span> Math.max(leftMax, rightMax);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p><strong>JavaScript</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function getMax(arr)&#123;</span><br><span class="line">      return process(arr,0,arr.length-1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function process(arr, left, right)&#123;</span><br><span class="line">      if(left == right) &#123;</span><br><span class="line">          return arr[left];</span><br><span class="line">      &#125;</span><br><span class="line">      var mid = left + ((right - left) &gt;&gt; 1);</span><br><span class="line">      var leftMax = process(arr, left, mid);</span><br><span class="line">      var rightMax = process(arr, mid+1, right);</span><br><span class="line">      return Math.max(leftMax, rightMax);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>根据上面的代码，可以看出子过程的规模是N/2,调用子过程的次数是2次，除了子过程之外的部分时间复杂度是O(1)。整体的表达式可以写作：T(N) = 2T(N/2) + O(1)，符合master公式的要求，因此可以直接代入使用。a=2, b=2, d=0，那么log<sub>2</sub>2 = 1 &gt; 0，时间复杂度为O(N^log<sub>2</sub>2) = O(N)。这和直接遍历找出最大值的时间复杂度相同。</p>
-<p>如果在代码中加入一个(和功能无关的）for循环，那么除了子过程之外的部分时间复杂度为O(N)，T(N) = 2T(N/2) + O(N)。示例如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMax</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> process(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(left == right) &#123;</span><br><span class="line">            <span class="keyword">return</span> arr[left];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 假如在代码中加入下面的语句, T(N) = 2T(N/2) + O(N)</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=left; i&lt;=right; i++) &#123;</span><br><span class="line">            System.out.println(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> leftMax = process(arr, left, mid);</span><br><span class="line">        <span class="keyword">int</span> rightMax = process(arr, mid+<span class="number">1</span>, right);</span><br><span class="line">        <span class="keyword">return</span> Math.max(leftMax, rightMax);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+        <p>前端页面的适配经常采用的方案是利用rem，将设计稿中的尺寸在不同尺寸的屏幕上对应地放大缩小。以下是相关配置的代码，其中设计稿的宽度是1920px，其他情况可以对应做出改变。实际使用时，只需要将设计稿的尺寸除以100，再以rem代替原本的px单位。比如”width: 200px;” 采用以下设置后，需要用”width: 2rem;”替代。</p>
+<p>App.vue文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;div id=&quot;nav&quot;&gt;</span><br><span class="line">      &lt;!-- &lt;router-link to=&quot;/&quot;&gt;Home&lt;/router-link&gt; |</span><br><span class="line">      &lt;router-link to=&quot;/about&quot;&gt;About&lt;/router-link&gt; --&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;router-view /&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;app&quot;,</span><br><span class="line">  // 注意vue的生命周期，开始转换是发生在何时。</span><br><span class="line">  created() &#123;</span><br><span class="line">    this.setHtmlFontSize();</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    setHtmlFontSize() &#123;</span><br><span class="line">      // 设计稿宽度为1920px时</span><br><span class="line">      var whdef = 100 / 1920;</span><br><span class="line">      var ww = window.innerWidth;</span><br><span class="line">      var rem = ww * whdef;</span><br><span class="line"></span><br><span class="line">      let root = document.documentElement;</span><br><span class="line">      </span><br><span class="line">      // `$&#123;str&#125;`是es6的新语法, 例：const name = &apos;A&apos;;const age = 18;console.info(`大家好，我叫$&#123;name&#125;，今年$&#123;age&#125;岁了`);</span><br><span class="line">      root.style.fontSize = `$&#123;rem&#125;px`;</span><br><span class="line"></span><br><span class="line">      // reload if resize</span><br><span class="line">      window.onresize = function() &#123;</span><br><span class="line">        window.location.reload();</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;less&quot;&gt;</span><br><span class="line">@import url(&quot;../src/assets/less/reset.less&quot;);</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>到此已经完成，可以直接将px值除以100得到对应的rem。因为rem的值是固定的，也可以提取出来放在js文件夹下的global.js中，在App.vue中直接引用，在此简单记录一下全局变量的使用。</p>
+<p>global.js对应的部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const rem = window.innerWidth*(100/1920);</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  rem</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>注意还要在main.js中加入以下代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> global_msg <span class="keyword">from</span> <span class="string">'@/assets/js/global.js'</span>   </span><br><span class="line">Vue.prototype.$global_msg = global_msg;</span><br></pre></td></tr></table></figure>
+<p>这样在其他的文件中可以通过this.$global_msg.rem来引入。</p>
+<p> App.vue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;div id=&quot;nav&quot;&gt;</span><br><span class="line">      &lt;!-- &lt;router-link to=&quot;/&quot;&gt;Home&lt;/router-link&gt; |</span><br><span class="line">      &lt;router-link to=&quot;/about&quot;&gt;About&lt;/router-link&gt; --&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;router-view /&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;app&quot;,</span><br><span class="line">  created() &#123;</span><br><span class="line">    this.setHtmlFontSize();</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    setHtmlFontSize() &#123;</span><br><span class="line">      let root = document.documentElement;</span><br><span class="line">      root.style.fontSize = `$&#123;this.$global_msg.rem&#125;px`;</span><br><span class="line"></span><br><span class="line">      // reload if resize</span><br><span class="line">      window.onresize = function() &#123;</span><br><span class="line">        window.location.reload();</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;less&quot;&gt;</span><br><span class="line">@import url(&quot;../src/assets/less/reset.less&quot;);</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -510,7 +509,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="https://Yimingzhe.github.io/2019/05/31/algorithm1-4/" title="算法学习笔记（四）递归中时间复杂度的估算">https://Yimingzhe.github.io/2019/05/31/algorithm1-4/</a>
+    <a href="https://Yimingzhe.github.io/2020/04/08/web09/" title="前端rem的应用">https://Yimingzhe.github.io/2020/04/08/web09/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -523,11 +522,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
-          
-            <a href="/tags/Java/" rel="tag"># Java</a>
-          
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+            <a href="/tags/rem/" rel="tag"># rem</a>
           
         </div>
       
@@ -540,8 +535,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/30/algorithm1-3/" rel="next" title="算法学习笔记（三）二分法查找(Binary Search)的应用">
-                <i class="fa fa-chevron-left"></i> 算法学习笔记（三）二分法查找(Binary Search)的应用
+              <a href="/2020/03/31/web08/" rel="next" title="Vue获取实时时间并按需求格式化">
+                <i class="fa fa-chevron-left"></i> Vue获取实时时间并按需求格式化
               </a>
             
           </div>
@@ -550,8 +545,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/01/algorithm2-1/" rel="prev" title="算法学习笔记（五）归并排序及相关扩展">
-                算法学习笔记（五）归并排序及相关扩展 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/04/08/web10/" rel="prev" title="Vue路由以及路由传参的基本使用">
+                Vue路由以及路由传参的基本使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
